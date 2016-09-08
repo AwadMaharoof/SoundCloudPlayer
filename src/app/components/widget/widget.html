@@ -1,0 +1,18 @@
+<div class="">
+  <md-slider ng-model="vm.currentTime" min="0" max="{{vm.totalTime}}" aria-label="red" ng-click="vm.seek($event)">
+  </md-slider>
+  {{vm.playTime}}
+  <br />
+  <button ng-click="vm.play()" ng-disabled="vm.isLoaded">Play</button>
+  <button ng-click="vm.pause()" ng-disabled="vm.isLoaded">Pause</button>
+  <button ng-click="vm.next()" ng-disabled="vm.isLoaded">Next</button>
+  <button ng-click="vm.previous()" ng-disabled="vm.isLoaded">Previous</button>
+  <button ng-click="vm.stop()" ng-disabled="vm.isLoaded">Stop</button>
+  <button ng-click="vm.volUp()" ng-disabled="vm.isLoaded">Vol Up</button>
+  <button ng-click="vm.volDown()" ng-disabled="vm.isLoaded">Vol Down</button>
+  <div ng-repeat="track in vm.trackData.tracks">
+    <img ng-src={{track.artwork_url}} />
+    <a ng-click="vm.playFromIndex($index)">{{track.title}}</a>
+  </div>
+  <div ng-show="vm.isLoaded">Loading...</div>
+</div>
