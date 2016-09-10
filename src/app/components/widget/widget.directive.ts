@@ -60,7 +60,7 @@ export class WidgetController {
   bindTimeUpdateEvent() {
     this.scPlayer.on('timeupdate', angular.bind(this, function () {
       this.currentTime = this.scPlayer.audio.currentTime;
-     // this.playTime = moment.duration(moment.duration(this.currentTime).asSeconds()).asMinutes();
+      this.playTime = this.getPlayTime();
       this.$scope.$apply();
     }));
   }
@@ -123,5 +123,12 @@ export class WidgetController {
   updateTotalTime() {
     this.updatePlayListIndex();
     this.totalTime = moment.duration(this.trackData.tracks[this.playListIndex].duration).asSeconds();
+  }
+
+  getPlayTime() {
+    var time = moment.duration(this.currentTime, "seconds");
+    var seconds = time.get('seconds');
+    seconds = (seconds < 10) ? ("0" + seconds) : seconds;
+    return time.get('minutes') + ':' + seconds;
   }
 }
