@@ -1,0 +1,45 @@
+.player-container {
+  color: #2a303c;
+  background-color: #fff;
+  .album-art {
+    margin: 40px 0;
+    img {
+      //width: 100%;
+      margin: 10% auto;
+    }
+    //.tilt {
+    //  background-color: #fff;
+    //  height: 200px;
+    //  width: 100%;
+    //  position: absolute;
+    //  top: 280%;
+    //  //z-index: 10;
+    //  transform: rotate(4deg);
+    //}
+  }
+  .track-detail {
+    margin: 20px 0;
+    .track-title {
+      font-weight: bold;
+    }
+    .artist {
+      color: $secondary-font-color;
+    }
+  }
+  .player-controls {
+    margin: 40px 0;
+    font-size: 20px;
+    span {
+      padding: 20px;
+      &.play {
+        -webkit-box-shadow: 0 8px 31px 1px rgba(0, 0, 0, 0.16);
+        -moz-box-shadow: 0 8px 31px 1px rgba(0, 0, 0, 0.16);
+        box-shadow: 0 8px 31px 1px rgba(0, 0, 0, 0.16);
+        border-radius: 50%;
+      }
+    }
+  }
+  .track-scrubber {
+    margin: 20px 0;
+  }
+}

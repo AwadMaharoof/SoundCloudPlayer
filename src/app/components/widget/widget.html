@@ -1,18 +1,59 @@
-<div class="">
-  <md-slider ng-model="vm.currentTime" min="0" max="{{vm.totalTime}}" aria-label="red" ng-click="vm.seek($event)">
-  </md-slider>
-  {{vm.playTime}}
-  <br />
-  <button ng-click="vm.play()" ng-disabled="vm.isLoaded">Play</button>
-  <button ng-click="vm.pause()" ng-disabled="vm.isLoaded">Pause</button>
-  <button ng-click="vm.next()" ng-disabled="vm.isLoaded">Next</button>
-  <button ng-click="vm.previous()" ng-disabled="vm.isLoaded">Previous</button>
-  <button ng-click="vm.stop()" ng-disabled="vm.isLoaded">Stop</button>
-  <button ng-click="vm.volUp()" ng-disabled="vm.isLoaded">Vol Up</button>
-  <button ng-click="vm.volDown()" ng-disabled="vm.isLoaded">Vol Down</button>
-  <div ng-repeat="track in vm.trackData.tracks">
-    <img ng-src={{track.artwork_url}} />
-    <a ng-click="vm.playFromIndex($index)">{{track.title}}</a>
+<!--<div class="">-->
+<!--<md-slider ng-model="vm.currentTime" min="0" max="{{vm.totalTime}}" aria-label="red" ng-click="vm.seek($event)">-->
+<!--</md-slider>-->
+<!--{{vm.playTime}}-->
+<!--<br />-->
+<!--<button ng-click="vm.play()" ng-disabled="vm.isLoaded">Play</button>-->
+<!--<button ng-click="vm.pause()" ng-disabled="vm.isLoaded">Pause</button>-->
+<!--<button ng-click="vm.next()" ng-disabled="vm.isLoaded">Next</button>-->
+<!--<button ng-click="vm.previous()" ng-disabled="vm.isLoaded">Previous</button>-->
+<!--<button ng-click="vm.stop()" ng-disabled="vm.isLoaded">Stop</button>-->
+<!--<button ng-click="vm.volUp()" ng-disabled="vm.isLoaded">Vol Up</button>-->
+<!--<button ng-click="vm.volDown()" ng-disabled="vm.isLoaded">Vol Down</button>-->
+<!--<div ng-repeat="track in vm.trackData.tracks">-->
+<!--<img ng-src={{track.artwork_url}} />-->
+<!--<a ng-click="vm.playFromIndex($index)">{{track.title}}</a>-->
+<!--</div>-->
+<!--<div ng-show="vm.isLoaded">Loading...</div>-->
+<!--</div>-->
+<div class="player-container">
+  <div class="row album-art">
+    <div class="col-sm-12">
+      <img class="img-responsive" ng-src="{{vm.trackData.artwork_url}}">
+    </div>
+    <div class="tilt"></div>
+    <div>
+      <div class="row track-detail">
+        <div class="col-sm-12 text-center">
+          <div class="track-title">{{vm.getTrackTitle()}}</div>
+          <div class="artist">{{vm.getTrackArtist()}}</div>
+        </div>
+      </div>
+      <div class="row player-controls">
+        <div class="col-sm-12 text-center">
+          <span class="previous" ng-click="vm.previous()" ng-disabled="vm.isLoaded">
+            <i class="glyphicon glyphicon-step-backward"></i>
+          </span>
+          <span class="play" ng-click="vm.togglePlay()" ng-disabled="vm.isLoaded">
+            <i ng-class="{true:'glyphicon-pause', false:'glyphicon-play'}[vm.isPlaying]" class="glyphicon"></i>
+          </span>
+          <span class="next" ng-click="vm.next()" ng-disabled="vm.isLoaded">
+            <i class="glyphicon glyphicon-step-forward"></i>
+          </span>
+        </div>
+      </div>
+      <div class="row track-scrubber">
+        <div class="col-sm-12 text-center">
+          <div class="col-sm-1">0.00</div>
+          <div class="col-sm-10">
+            <md-slider ng-model="vm.currentTime" min="0" max="{{vm.totalTime}}" aria-label="red"
+                       ng-click="vm.seek($event)">
+          </div>
+            <div class="col-sm-1">
+              <div>{{vm.playTime}}</div>
+            </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div ng-show="vm.isLoaded">Loading...</div>
 </div>

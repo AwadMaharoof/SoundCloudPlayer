@@ -24,7 +24,8 @@ export class WidgetController {
   private $scope:ng.IScope;
   private playListIndex:number;
   private isLoaded:boolean;
-  private playTime:boolean;
+  private playTime:any;
+  private isPlaying:boolean;
 
   constructor($scope:ng.IScope) {
     this.playListIndex = 0;
@@ -32,20 +33,21 @@ export class WidgetController {
 
     // create new instance of audio
     this.scPlayer = new SoundCloudAudio('f0e69b1d085b0327788e6e7768a20653');
-    this.initZoneCastPlayList();
+    this.initPlayList();
   }
 
-  initZoneCastPlayList() {
+  initPlayList() {
     this.isLoaded = true;
 
     // Load track and resolve it's data
     this.scPlayer.resolve('https://soundcloud.com/zone24x7/sets/zonecast/s-qEq9z', angular.bind(this, function (track) {
       // inspect objects
-      //console.log(track);
-      //console.log(this.scPlayer);
+      console.log(track);
+      console.log(this.scPlayer);
       this.bindTrackData(track);
       this.isLoaded = false;
     }));
+    this.isPlaying = false;
     this.bindTimeUpdateEvent();
     this.bindEndAction();
   }
@@ -68,30 +70,44 @@ export class WidgetController {
   play() {
     this.updatePlayListIndex();
     this.scPlayer.play({playlistIndex: this.playListIndex});
+    this.isPlaying = true;
     this.updateTotalTime();
+  }
+
+  togglePlay() {
+    if (this.isPlaying) {
+      this.pause();
+    } else {
+      this.play();
+    }
   }
 
   playFromIndex(index:number) {
     this.scPlayer.play({playlistIndex: index});
+    this.isPlaying = true;
     this.updateTotalTime();
   }
 
   pause() {
     this.scPlayer.pause();
+    this.isPlaying = false;
   }
 
   next() {
     this.scPlayer.next();
+    this.isPlaying = true;
     this.updateTotalTime();
   }
 
   previous() {
     this.scPlayer.previous();
+    this.isPlaying = true;
     this.updateTotalTime();
   }
 
   stop() {
     this.scPlayer.stop();
+    this.isPlaying = false;
   }
 
   bindTrackData(track:any) {
@@ -130,5 +146,17 @@ export class WidgetController {
     var seconds = time.get('seconds');
     seconds = (seconds < 10) ? ("0" + seconds) : seconds;
     return time.get('minutes') + ':' + seconds;
+  }
+
+  getTrackTitle() {
+    if (this.trackData) {
+      return this.trackData.tracks[this.playListIndex].title;
+    }
+  }
+
+  getTrackArtist() {
+    if (this.trackData) {
+      return this.trackData.user.username;
+    }
   }
 }
