@@ -3,7 +3,7 @@
  */
 
 /** @ngInject */
-export function widget():angular.IDirective {
+export function widget(): angular.IDirective {
   return {
     restrict: 'E',
     scope: {},
@@ -17,33 +17,34 @@ export function widget():angular.IDirective {
 /** @ngInject */
 export class WidgetController {
 
-  private scPlayer:any;
-  private trackData:any;
-  private currentTime:number;
-  private totalTime:number;
-  private $scope:ng.IScope;
-  private playListIndex:number;
-  private isLoaded:boolean;
-  private playTime:any;
-  private isPlaying:boolean;
+  private scPlayer: any;
+  private trackData: any;
+  private currentTime: number;
+  private totalTime: number;
+  private $scope: ng.IScope;
+  private playListIndex: number;
+  private isLoaded: boolean;
+  private isPlaying: boolean;
+  private soundCloudClientId: string;
 
-  constructor($scope:ng.IScope) {
+  constructor($scope: ng.IScope) {
     this.playListIndex = 0;
     this.$scope = $scope;
+    this.soundCloudClientId = '';
 
     // create new instance of audio
-    this.scPlayer = new SoundCloudAudio('f0e69b1d085b0327788e6e7768a20653');
+    this.scPlayer = new SoundCloudAudio(this.soundCloudClientId);
     this.initPlayList();
   }
 
   initPlayList() {
     this.isLoaded = true;
 
-    // Load track and resolve it's data
-    this.scPlayer.resolve('https://soundcloud.com/zone24x7/sets/zonecast/s-qEq9z', angular.bind(this, function (track) {
+    // load track and resolve it's data
+    this.scPlayer.resolve('https://soundcloud.com/zone24x7/sets/zonecast/s-qEq9z', angular.bind(this, function (track: any) {
       // inspect objects
-      console.log(track);
-      console.log(this.scPlayer);
+      // console.log(track);
+      // console.log(this.scPlayer);
       this.bindTrackData(track);
       this.isLoaded = false;
     }));
@@ -53,7 +54,7 @@ export class WidgetController {
   }
 
   bindEndAction() {
-    //try and play next
+    // try and play next
     this.scPlayer.on('ended', angular.bind(this, function () {
       this.next();
     }));
@@ -82,7 +83,7 @@ export class WidgetController {
     }
   }
 
-  playFromIndex(index:number) {
+  playFromIndex(index: number) {
     this.scPlayer.play({playlistIndex: index});
     this.isPlaying = true;
     this.updateTotalTime();
@@ -110,22 +111,25 @@ export class WidgetController {
     this.isPlaying = false;
   }
 
-  bindTrackData(track:any) {
+  bindTrackData(track: any) {
+    track.artwork_url = this.getLargerArtWork(track.artwork_url);
     this.trackData = track;
   }
 
-  seek(event:any) {
+  seek(event: any) {
     this.scPlayer.seek(event);
   }
 
   volUp() {
-    if (this.scPlayer.audio.volume < 1.0)
+    if (this.scPlayer.audio.volume < 1.0) {
       this.scPlayer.audio.volume += 0.1;
+    }
   }
 
   volDown() {
-    if (this.scPlayer.audio.volume > 0.1)
+    if (this.scPlayer.audio.volume > 0.1) {
       this.scPlayer.audio.volume -= 0.1;
+    }
   }
 
   updatePlayListIndex() {
@@ -142,9 +146,9 @@ export class WidgetController {
   }
 
   getPlayTime() {
-    var time = moment.duration(this.currentTime, "seconds");
+    var time = moment.duration(this.currentTime, 'seconds');
     var seconds = time.get('seconds');
-    seconds = (seconds < 10) ? ("0" + seconds) : seconds;
+    seconds = (seconds < 10) ? ('0' + seconds) : seconds;
     return time.get('minutes') + ':' + seconds;
   }
 
@@ -158,5 +162,9 @@ export class WidgetController {
     if (this.trackData) {
       return this.trackData.user.username;
     }
+  }
+
+  getLargerArtWork(url: string) {
+    return url.replace('large', 'original'); // http://stackoverflow.com/a/16549098/1179865
   }
 }

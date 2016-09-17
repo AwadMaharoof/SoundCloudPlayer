@@ -1,23 +1,21 @@
 .player-container {
   color: #2a303c;
   background-color: #fff;
+  height:92vh;
+  transition: all 500ms ease-in;
   .album-art {
     margin: 40px 0;
-    img {
-      //width: 100%;
-      margin: 10% auto;
+    .imgcontainer{
+      transition: all 500ms ease-in;
+      background-color: #333;
+      height:51vh;
+      background-repeat: no-repeat, no-repeat;
+      background-size: 110% auto, 100%;
+      background-position: bottom, center;
     }
-    //.tilt {
-    //  background-color: #fff;
-    //  height: 200px;
-    //  width: 100%;
-    //  position: absolute;
-    //  top: 280%;
-    //  //z-index: 10;
-    //  transform: rotate(4deg);
-    //}
   }
   .track-detail {
+    transition: all 500ms ease-in;
     margin: 20px 0;
     .track-title {
       font-weight: bold;
@@ -27,6 +25,7 @@
     }
   }
   .player-controls {
+    transition: all 500ms ease-in;
     margin: 40px 0;
     font-size: 20px;
     span {
